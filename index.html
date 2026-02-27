@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ballon Global Platform</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background: #f4f7f9; color: #333; margin: 0; padding: 0; }
+        .app-container { padding: 15px; }
+        .header { background: linear-gradient(135deg, #0088cc, #005588); color: white; padding: 25px 15px; border-radius: 0 0 25px 25px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header h1 { margin: 0; font-size: 22px; }
+        .balance-card { background: white; margin-top: -20px; border-radius: 15px; padding: 20px; display: flex; justify-content: space-around; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .stat-item { text-align: center; }
+        .stat-value { display: block; font-size: 18px; font-weight: bold; color: #0088cc; }
+        .stat-label { font-size: 12px; color: #777; }
+        
+        .section-title { margin: 20px 5px 10px; font-size: 16px; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #eee; transition: 0.3s; }
+        .card:active { transform: scale(0.95); background: #f9f9f9; }
+        .card i { font-size: 28px; color: #0088cc; margin-bottom: 10px; }
+        .card span { display: block; font-size: 14px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Ballon Global Platform 🎈</h1>
+        <p>مرحباً بك في عالمك الرقمي</p>
+    </div>
+
+    <div class="app-container">
+        <div class="balance-card">
+            <div class="stat-item">
+                <span class="stat-value" id="user-points">0</span>
+                <span class="stat-label">نقاطك</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">عالمي</span>
+                <span class="stat-label">المستوى</span>
+            </div>
+        </div>
+
+        <div class="section-title">الأقسام الرئيسية</div>
+        <div class="grid">
+            <div class="card" onclick="openAI()">
+                <i class="fas fa-robot"></i>
+                <span>ذكاء اصطناعي</span>
+            </div>
+            <div class="card" onclick="openLink('https://omg10.com/4/9047517')">
+                <i class="fas fa-shopping-bag"></i>
+                <span>تسوق عالمي</span>
+            </div>
+            <div class="card" onclick="openLink('https://s.click.aliexpress.com/e/_DlnYxxx')">
+                <i class="fas fa-box-open"></i>
+                <span>علي إكسبريس</span>
+            </div>
+            <div class="card" onclick="showAlert()">
+                <i class="fas fa-coins"></i>
+                <span>قسم الأرباح</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        function openLink(url) {
+            tg.openLink(url);
+        }
+
+        function openAI() {
+            tg.showAlert("سيتم ربط محرك الذكاء الاصطناعي (Groq) داخل هذه الواجهة في التحديث القادم!");
+        }
+
+        function showAlert() {
+            tg.showConfirm("هل تريد البدء في إتمام المهام لربح النقاط؟", (ok) => {
+                if(ok) tg.openLink('https://omg10.com/4/9047517');
+            });
+        }
+    </script>
+</body>
+</html>

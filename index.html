@@ -1,218 +1,29 @@
-<!DOCTYPE html>
-<html lang="fr" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ballon Ludo Global | Win Prizes</title>
-    
-    <!-- Monetag SDK -->
-    <script src='//libtl.com/sdk.js' data-zone='10659230' data-sdk='show_10659230'></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --bg: #0b0e14;
-            --primary: #facc15; /* Gold for Prizes */
-            --secondary: #3b82f6; /* Blue for Ludo */
-            --accent: #ef4444; /* Red for Action */
-            --card-bg: #1e293b;
-        }
-        
-        body { font-family: 'Poppins', 'Cairo', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 0; overflow-x: hidden; }
-        
-        /* Premium Header */
-        .header { 
-            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; 
-            background: rgba(30, 41, 59, 0.9); backdrop-filter: blur(15px); position: sticky; top: 0; z-index: 1000;
-        }
-        .user-info { display: flex; align-items: center; gap: 10px; }
-        .user-info img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--primary); }
-        .balance-badge { background: #000; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--primary); color: var(--primary); font-weight: bold; font-size: 14px; }
-
-        .container { padding: 15px 15px 100px; }
-
-        /* Ludo Hero Card */
-        .ludo-hero {
-            background: linear-gradient(135deg, #1e3a8a, #1e40af);
-            border-radius: 24px; padding: 25px; margin-bottom: 20px;
-            text-align: center; border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .ludo-hero img { width: 100px; margin-bottom: 10px; animation: bounce 2s infinite; }
-
-        /* Game Modes */
-        .section-title { font-size: 18px; font-weight: 700; margin: 20px 5px 10px; display: flex; align-items: center; gap: 10px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .mode-card {
-            background: var(--card-bg); padding: 20px; border-radius: 20px;
-            text-align: center; border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s; cursor: pointer;
-        }
-        .mode-card:active { transform: scale(0.95); }
-        .mode-card i { font-size: 30px; margin-bottom: 10px; display: block; }
-        .mode-card.gold i { color: var(--primary); }
-        .mode-card.blue i { color: var(--secondary); }
-
-        /* Tournament Banner */
-        .tournament-banner {
-            background: linear-gradient(90deg, #ef4444, #b91c1c);
-            padding: 15px; border-radius: 15px; margin-top: 20px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        /* Nav Bar */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(30, 41, 59, 0.98); height: 75px; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
-        .nav-item { color: #64748b; text-align: center; font-size: 10px; flex: 1; }
-        .nav-item.active { color: var(--primary); }
-        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
-
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    </style>
-</head>
-<body>
-
-    <header class="header">
-        <div class="user-info">
-            <img id="u_img" src="https://via.placeholder.com/40">
-            <div>
-                <b id="u_name">Player</b>
-                <div style="font-size: 9px; color: var(--primary);">PRO GAMER</div>
-            </div>
-        </div>
-        <div class="balance-badge">
-            <i class="fas fa-trophy"></i> <span id="balance">0</span>
-        </div>
-    </header>
-
-    <div class="container">
-        <!-- Hero Section -->
-        <div class="ludo-hero">
-            <img src="https://cdn-icons-png.flaticon.com/512/6121/6121927.png" alt="Ludo">
-            <h2 id="txt_main">Ludo Classique Premium</h2>
-            <p style="font-size: 12px; opacity: 0.8;" id="txt_desc">Jouez, Gagnez des prix et dominez le classement!</p>
-            <button onclick="showAd()" style="background: var(--primary); color: #000; border: none; padding: 10px 20px; border-radius: 12px; font-weight: bold; margin-top: 10px;">BONUS QUOTIDIEN 🎁</button>
-        </div>
-
-        <div class="section-title"><i class="fas fa-play"></i> Modes de Jeu</div>
-        <div class="grid">
-            <div class="mode-card blue" onclick="playLudo()">
-                <i class="fas fa-bolt"></i>
-                <b>Match Rapide</b>
-                <span style="font-size: 10px; opacity: 0.6;">Gagnez 50 pts</span>
-            </div>
-            <div class="mode-card gold" onclick="tg.showAlert('Tournoi hebdomadaire commence ce Dimanche!')">
-                <i class="fas fa-trophy"></i>
-                <b>Tournois</b>
-                <span style="font-size: 10px; opacity: 0.6;">Prix: 100$</span>
-            </div>
-        </div>
-
-        <div class="section-title"><i class="fas fa-chart-line"></i> Pronostics & Récompenses</div>
-        <div class="grid">
-            <div class="mode-card" style="background: #064e3b;" onclick="tg.openLink('https://www.livescore.com')">
-                <i class="fas fa-futbol" style="color: #10b981;"></i>
-                <b>Pronostics</b>
-                <span style="font-size: 10px; opacity: 0.6;">Prédisez et gagnez</span>
-            </div>
-            <div class="mode-card" style="background: #431407;" onclick="downloadTV()">
-                <i class="fas fa-tv" style="color: #f97316;"></i>
-                <b>Ballon TV</b>
-                <span style="font-size: 10px; opacity: 0.6;">Matchs en direct</span>
-            </div>
-        </div>
-
-        <div class="tournament-banner" onclick="invite()">
-            <div>
-                <b style="display:block;">Programme de Parrainage</b>
-                <span style="font-size: 11px;">+10,000 pts par ami invité</span>
-            </div>
-            <i class="fas fa-user-plus"></i>
-        </div>
+<!-- أضف هذا القسم داخل ملف index.html المطور سابقاً -->
+<div class="section-title"><i class="fas fa-trophy" style="color: gold;"></i> Leaderboard Global</div>
+<div style="background: var(--card-bg); border-radius: 20px; padding: 15px; border: 1px solid rgba(255,215,0,0.2);">
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #334155; padding-bottom:5px;">
+        <span>#1 Master_Ludo</span>
+        <span style="color:var(--primary);">1,250,000 pts</span>
     </div>
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid #334155; padding-bottom:5px;">
+        <span>#2 King_Ballon</span>
+        <span style="color:var(--primary);">980,000 pts</span>
+    </div>
+    <div style="display:flex; justify-content:space-between;">
+        <span>#3 Alex_Pro</span>
+        <span style="color:var(--primary);">850,000 pts</span>
+    </div>
+</div>
 
-    <nav class="nav">
-        <div class="nav-item active"><i class="fas fa-dice"></i>Ludo</div>
-        <div class="nav-item" onclick="showPopAd()"><i class="fas fa-star"></i>Missions</div>
-        <div class="nav-item" onclick="invite()"><i class="fas fa-users"></i>Amis</div>
-        <div class="nav-item" onclick="tg.showAlert('Portefeuille sécurisé')"><i class="fas fa-wallet"></i>Prix</div>
-    </nav>
-
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand();
-
-        // [1] Configuration Automatique de la Langue (Français/Arabe)
-        const lang = tg.initDataUnsafe.user?.language_code === 'ar' ? 'ar' : 'fr';
-        const i18n = {
-            fr: { main: "Ludo Classique Premium", desc: "Jouez, Gagnez des prix et dominez!", daily: "BONUS QUOTIDIEN" },
-            ar: { main: "لودو كلاسيك بريميوم", desc: "العب، اربح الجوائز وسيطر على الترتيب!", daily: "مكافأة يومية" }
-        };
-        
-        document.getElementById('txt_main').innerText = i18n[lang].main;
-        document.getElementById('txt_desc').innerText = i18n[lang].desc;
-
-        // [2] Système de Points (Mining continu en arrière-plan)
-        let balance = parseFloat(localStorage.getItem('ballon_ludo_bal')) || 0;
-        setInterval(() => {
-            balance += 0.01;
-            document.getElementById('balance').innerText = Math.floor(balance).toLocaleString();
-            localStorage.setItem('ballon_ludo_bal', balance);
-        }, 2000);
-
-        // [3] Intégration des Publicités Monetag (In-App Interstitial Auto)
-        if (typeof show_10659230 === 'function') {
-            show_10659230({ 
-                type: 'inApp', 
-                inAppSettings: { frequency: 2, capping: 0.1, interval: 45, timeout: 5, everyPage: false } 
-            });
-        }
-
-        // [4] Fonctions de Récompenses (Rewarded Ads)
-        function showAd() {
-            if (typeof show_10659230 === 'function') {
-                show_10659230().then(() => {
-                    balance += 100;
-                    tg.showAlert("Félicitations! +100 Points Bonus 🎈");
-                    tg.HapticFeedback.notificationOccurred('success');
-                });
-            }
-        }
-
-        function showPopAd() {
-            if (typeof show_10659230 === 'function') {
+<script>
+    // دالة "تذكرة الدخول" المربحة
+    function getTournamentTicket() {
+        tg.showConfirm("Pour participer au tournoi, vous devez obtenir un Ticket (Regarder une vidéo).", (ok) => {
+            if(ok && typeof show_10659230 === 'function') {
                 show_10659230('pop').then(() => {
-                    balance += 500;
-                    tg.showAlert("Mission Accomplie! +500 Points.");
+                    tg.showAlert("🎟️ Ticket Obtenu! Vous pouvez maintenant entrer dans le Tournoi.");
                 });
             }
-        }
-
-        function playLudo() {
-            // رابط سيرفر لودو حقيقي أو واجهة اللعب
-            tg.showConfirm("Lancer un Match Rapide ?", (ok) => {
-                if(ok) tg.openLink('https://www.gamevui.vn/ludo-classic/game'); 
-            });
-        }
-
-        function downloadTV() {
-            tg.openLink('https://www.mediafire.com/file/oyendv6rjwecvk6/app3387489-hp95l0-1-1.apk/file');
-        }
-
-        function invite() {
-            const link = `https://t.me/BallonGlobal_bot?start=${tg.initDataUnsafe.user?.id || 'id'}`;
-            tg.showPopup({
-                title: 'Inviter des Amis',
-                message: `Partagez votre lien et gagnez 10,000 points:\n${link}`,
-                buttons: [{text: 'Copier le lien', type: 'default'}]
-            });
-        }
-
-        if (tg.initDataUnsafe.user) {
-            document.getElementById('u_name').innerText = tg.initDataUnsafe.user.first_name;
-            if (tg.initDataUnsafe.user.photo_url) document.getElementById('u_img').src = tg.initDataUnsafe.user.photo_url;
-        }
-    </script>
-</body>
-</html>
+        });
+    }
+</script>

@@ -4,61 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ballon Global Platform</title>
+    
+    <!-- [1] كود Monetag الخاص بك للربح -->
+    <script src='//libtl.com/sdk.js' data-zone='10659230' data-sdk='show_10659230'></script>
+    
+    <!-- استدعاء مكتبة تليجرام -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Cairo', sans-serif; background: #f4f7f9; color: #333; margin: 0; padding: 0; }
-        .app-container { padding: 15px; }
-        .header { background: linear-gradient(135deg, #0088cc, #005588); color: white; padding: 25px 15px; border-radius: 0 0 25px 25px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .header h1 { margin: 0; font-size: 22px; }
-        .balance-card { background: white; margin-top: -20px; border-radius: 15px; padding: 20px; display: flex; justify-content: space-around; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .stat-item { text-align: center; }
-        .stat-value { display: block; font-size: 18px; font-weight: bold; color: #0088cc; }
-        .stat-label { font-size: 12px; color: #777; }
-        
-        .section-title { margin: 20px 5px 10px; font-size: 16px; font-weight: bold; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid #eee; transition: 0.3s; }
-        .card:active { transform: scale(0.95); background: #f9f9f9; }
-        .card i { font-size: 28px; color: #0088cc; margin-bottom: 10px; }
-        .card span { display: block; font-size: 14px; font-weight: bold; }
+        body { font-family: sans-serif; background: #f4f7f9; color: #333; margin: 0; padding: 0; }
+        .header { background: linear-gradient(135deg, #0088cc, #005588); color: white; padding: 30px 15px; text-align: center; border-radius: 0 0 25px 25px; }
+        .container { padding: 15px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .card { background: white; padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); cursor: pointer; border: 1px solid #eee; }
+        .card:active { transform: scale(0.95); }
+        .card i { font-size: 30px; color: #0088cc; margin-bottom: 10px; }
+        .card span { display: block; font-weight: bold; }
+        .ad-btn { background: #ff9800; color: white; padding: 15px; border-radius: 12px; margin-top: 20px; text-align: center; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
+
     <div class="header">
-        <h1>Ballon Global Platform 🎈</h1>
-        <p>مرحباً بك في عالمك الرقمي</p>
+        <h1>Ballon Global 🎈</h1>
+        <p>المنصة العالمية للربح والتسوق</p>
     </div>
 
-    <div class="app-container">
-        <div class="balance-card">
-            <div class="stat-item">
-                <span class="stat-value" id="user-points">0</span>
-                <span class="stat-label">نقاطك</span>
-            </div>
-            <div class="stat-item">
-                <span class="stat-value">عالمي</span>
-                <span class="stat-label">المستوى</span>
-            </div>
+    <div class="container">
+        <!-- زر لمشاهدة إعلان وربح نقاط (أعلى ربح لك) -->
+        <div class="ad-btn" onclick="watchAd()">
+            <i class="fas fa-play-circle"></i> شاهد إعلان واربح نقاط مجانية 💰
         </div>
 
-        <div class="section-title">الأقسام الرئيسية</div>
         <div class="grid">
+            <!-- قسم الذكاء الاصطناعي - يظهر إعلان قبل الدخول -->
             <div class="card" onclick="openAI()">
                 <i class="fas fa-robot"></i>
-                <span>ذكاء اصطناعي</span>
+                <span>ذكاء Ballon</span>
             </div>
+            
+            <!-- قسم التسوق -->
             <div class="card" onclick="openLink('https://omg10.com/4/9047517')">
-                <i class="fas fa-shopping-bag"></i>
-                <span>تسوق عالمي</span>
+                <i class="fas fa-shopping-cart"></i>
+                <span>تسوق واربح</span>
             </div>
+
             <div class="card" onclick="openLink('https://s.click.aliexpress.com/e/_DlnYxxx')">
-                <i class="fas fa-box-open"></i>
-                <span>علي إكسبريس</span>
+                <i class="fas fa-box"></i>
+                <span>تخفيضات علي إكسبريس</span>
             </div>
-            <div class="card" onclick="showAlert()">
+
+            <div class="card" onclick="watchAd()">
                 <i class="fas fa-coins"></i>
-                <span>قسم الأرباح</span>
+                <span>مهام يومية</span>
             </div>
         </div>
     </div>
@@ -67,18 +66,30 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        function openLink(url) {
-            tg.openLink(url);
+        // وظيفة إظهار إعلان Monetag
+        function watchAd() {
+            if (typeof show_10659230 === 'function') {
+                show_10659230().then(() => {
+                    tg.showAlert("شكرًا لدعمك! تم إضافة النقاط إلى حسابك.");
+                }).catch((e) => {
+                    tg.showAlert("الإعلان غير جاهز حالياً، جرب بعد ثوانٍ.");
+                });
+            } else {
+                tg.showAlert("جاري تحميل نظام الأرباح... حاول مجدداً");
+            }
         }
 
         function openAI() {
-            tg.showAlert("سيتم ربط محرك الذكاء الاصطناعي (Groq) داخل هذه الواجهة في التحديث القادم!");
+            // إظهار إعلان قبل فتح الذكاء الاصطناعي لزيادة أرباحك
+            if (typeof show_10659230 === 'function') {
+                show_10659230().finally(() => {
+                    tg.showAlert("سيتم توجيهك الآن لمحرك الذكاء الاصطناعي...");
+                });
+            }
         }
 
-        function showAlert() {
-            tg.showConfirm("هل تريد البدء في إتمام المهام لربح النقاط؟", (ok) => {
-                if(ok) tg.openLink('https://omg10.com/4/9047517');
-            });
+        function openLink(url) {
+            tg.openLink(url);
         }
     </script>
 </body>
